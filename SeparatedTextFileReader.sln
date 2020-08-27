@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{EA1A05CC-2791-48B2-A3E1-F81A4E5E5D39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{BBF76886-2B2E-4F7E-BAC5-2310C4383D61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeparatedTextFileReader.Application", "SeparatedTextFileReader.Application\SeparatedTextFileReader.Application.csproj", "{173F6355-8DD5-4992-AF2D-0459A9111964}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeparatedTextFileReader.Domain", "SeparatedTextFileReader.Domain\SeparatedTextFileReader.Domain.csproj", "{8437AA2E-93A4-4A83-894B-EB7A53020D81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeparatedTextFileReader.Infrastructure", "SeparatedTextFileReader.Infrastructure\SeparatedTextFileReader.Infrastructure.csproj", "{D66DC064-3D8D-450B-8427-ED63BBDA0901}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeparatedTextFileReader.ConsoleApp", "SeparatedTextFileReader.ConsoleApp\SeparatedTextFileReader.ConsoleApp.csproj", "{887FF31D-A8DE-4A4B-9D50-6A11754CDA62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{173F6355-8DD5-4992-AF2D-0459A9111964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{173F6355-8DD5-4992-AF2D-0459A9111964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{173F6355-8DD5-4992-AF2D-0459A9111964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{173F6355-8DD5-4992-AF2D-0459A9111964}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8437AA2E-93A4-4A83-894B-EB7A53020D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8437AA2E-93A4-4A83-894B-EB7A53020D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8437AA2E-93A4-4A83-894B-EB7A53020D81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8437AA2E-93A4-4A83-894B-EB7A53020D81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D66DC064-3D8D-450B-8427-ED63BBDA0901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D66DC064-3D8D-450B-8427-ED63BBDA0901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D66DC064-3D8D-450B-8427-ED63BBDA0901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D66DC064-3D8D-450B-8427-ED63BBDA0901}.Release|Any CPU.Build.0 = Release|Any CPU
+		{887FF31D-A8DE-4A4B-9D50-6A11754CDA62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{887FF31D-A8DE-4A4B-9D50-6A11754CDA62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{887FF31D-A8DE-4A4B-9D50-6A11754CDA62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{887FF31D-A8DE-4A4B-9D50-6A11754CDA62}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{173F6355-8DD5-4992-AF2D-0459A9111964} = {EA1A05CC-2791-48B2-A3E1-F81A4E5E5D39}
+		{8437AA2E-93A4-4A83-894B-EB7A53020D81} = {EA1A05CC-2791-48B2-A3E1-F81A4E5E5D39}
+		{D66DC064-3D8D-450B-8427-ED63BBDA0901} = {BBF76886-2B2E-4F7E-BAC5-2310C4383D61}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD403B8A-2D9B-46F5-AB72-5E0E1605476E}
+	EndGlobalSection
+EndGlobal
