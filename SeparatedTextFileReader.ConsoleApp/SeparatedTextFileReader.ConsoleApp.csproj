@@ -6,16 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Options\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.2" />
     <PackageReference Include="NLog" Version="4.7.0" />
     <PackageReference Include="NLog.Extensions.Hosting" Version="1.6.2" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.6.2" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SeparatedTextFileReader.Application\SeparatedTextFileReader.Application.csproj" />
+    <ProjectReference Include="..\SeparatedTextFileReader.Infrastructure\SeparatedTextFileReader.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

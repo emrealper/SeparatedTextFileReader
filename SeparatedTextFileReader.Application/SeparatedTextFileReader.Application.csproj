@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Interfaces\" />
+    <ProjectReference Include="..\SeparatedTextFileReader.Domain\SeparatedTextFileReader.Domain.csproj" />
   </ItemGroup>
 
 </Project>
