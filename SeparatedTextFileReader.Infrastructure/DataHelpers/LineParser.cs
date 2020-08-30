@@ -16,6 +16,8 @@ namespace SeparatedTextFileReader.Infrastructure.DataHelpers
         {
             var lineDictionary = new Dictionary<int, string>();
 
+
+
             for (var i = 0; i < line.Split(TabDelimeter).Length; i++)
                 lineDictionary.Add(i, line.Split(TabDelimeter)[i].Replace("\"", ""));
 

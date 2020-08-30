@@ -14,5 +14,20 @@ namespace SeparatedTextFileReader.ConsoleApp.Options
         {
             attributeMappings = AttributeMappings;
         }
-    }
+
+
+        public IEnumerable<string> ToTabDelimatedString()
+        {
+
+
+            foreach (KeyValuePair<string, string> headerAttribute in AttributeMappings)
+            {
+
+                yield return headerAttribute.Value+"\t";
+
+            }
+
+        }
 }
+
+    }

@@ -16,39 +16,24 @@ namespace SeparatedTextFileReader.Infrastructure.DataHelpers
 
 
 
-        public DeserializeRowData(Dictionary<string, string> propertyMapping)
-        {
-            this._settings = new JsonSerializerSettings();
-            this._settings.ContractResolver = new ContractResolver(propertyMapping);
-
-
-        }
-
-
-
-
         public DeserializeRowData()
         {
             this._settings = new JsonSerializerSettings();
-
-            this._settings.DateFormatString = "dd.mm.yyyy";
             this._settings.Formatting = Formatting.Indented;
 
+
         }
 
 
-        public E Deserialize(string line)
+
+
+
+
+        public E Deserialize(Dictionary<int, string> properties,
+            Dictionary<int, string> values, 
+            Dictionary<string, string> propertyMapping)
         {
-
-
-
-            return JsonConvert.DeserializeObject<E>(line, this._settings);
-        }
-
-
-        public E Deserialize(Dictionary<int, string> properties, Dictionary<int, string> values)
-        {
-   
+            this._settings.ContractResolver = new ContractResolver(propertyMapping);
 
             Dictionary<string, string> propsValuesDict = new Dictionary<string, string>();
 

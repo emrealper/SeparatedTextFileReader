@@ -6,8 +6,10 @@ namespace SeparatedTextFileReader.Application.Common.Interfaces
     public interface IDeserializeRowData
         <E> where E : class, IEntity
     {
-        E Deserialize(string line);
+  
 
-        E Deserialize(Dictionary<int, string> headerAttribute, Dictionary<int, string> rowData);
+        E Deserialize(Dictionary<int, string> properties,
+                    Dictionary<int, string> values,
+                    Dictionary<string, string> propertyMapping);
     }
 }

@@ -5,6 +5,7 @@ using SeparatedTextFileReader.Domain.ValueObject;
 using SeparatedTextFileReader.Infrastructure.FileHelpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SeparatedTextFileReader.Infrastructure.Services
@@ -34,8 +35,21 @@ namespace SeparatedTextFileReader.Infrastructure.Services
 
 
 
-        public List<IEntity> Readlines<T>() where T:IEntity
+        public bool TryReadAndParselines<T>(
+            Dictionary<string, string> attributeMappings,
+            out List<AdProcurement> valueList,
+            out Dictionary<int, string> headerInOrder,
+            out Dictionary<string, int> dataLinePropsInOrder,
+            out string errors ) 
+            where T:IEntity
         {
+
+            var errorMessages = new StringBuilder();
+            var orderedHeaderAttributes = new Dictionary<int, string>();
+            var orderedLineProperties = new Dictionary<string, int>();
+            var isValidationsPassed = true;
+            var adProcurementList = new List<AdProcurement>();
+
 
             var depth = 0;
             var result = new List<IEntity>();
@@ -43,11 +57,41 @@ namespace SeparatedTextFileReader.Infrastructure.Services
 
             foreach ( var line in _fileService.ReadLines())
             {
+
+                if(line.StartsWith("****") || line.StartsWith("#") || string.IsNullOrEmpty(line))
+                {
+                    continue;
+                }
+
                 var rowColumnDictionary = new Dictionary<int, string>();
 
                 if(depth==0)
                 {
                     headerColumnDictionary = _lineParser.TabSeparatedParser(line);
+                    //check the header is the correct format and extract missing header attribute
+                    var missingHeaderAttributes = attributeMappings.Values.Except(headerColumnDictionary.Values);
+                    if(missingHeaderAttributes.ToList().Count!=0)
+                    {
+                        errorMessages.Append($"Following header attributes are missing:  {string.Join(", ", missingHeaderAttributes)}");
+                        break;
+                    }
+                    else
+                    {
+                        orderedHeaderAttributes = headerColumnDictionary;
+
+                        //extract line data property order
+                        foreach (KeyValuePair<int, string> mapping in headerColumnDictionary)
+                        {
+
+                            orderedLineProperties[attributeMappings.
+                                FirstOrDefault(x => x.Value == mapping.Value).Key]
+                                = mapping.Key;
+
+                        }
+
+                    }
+                 
+
                 }
                 else
                 {
@@ -55,25 +99,37 @@ namespace SeparatedTextFileReader.Infrastructure.Services
 
 
 
-                    var entity = _deserializeRowData.Deserialize(headerColumnDictionary,rowColumnDictionary);
+                    var entity = _deserializeRowData.Deserialize(headerColumnDictionary,rowColumnDictionary,
+                        attributeMappings);
 
                     AdProcurement value;
                     var validationErrors = string.Empty;
-                    var adProcurement = AdProcurement.For(entity,out value,out validationErrors);
-                    
-                    
-                    
-                    result.Add(entity);
+                    AdProcurement.For(entity,out value,out validationErrors);
 
-                    var a = 0;
+                    if(value!=null && string.IsNullOrEmpty(validationErrors))
+                    {
+                        adProcurementList.Add(value);
+                    }
+                    else
+                    {
+                        errorMessages.Append($"Row Number {depth} : \n {validationErrors} \n");
+                        isValidationsPassed = false;
+                      
+                    }
+                    
+                    
+                   
                 }
 
 
                 depth++;
             }
-      
 
-            return result; 
+            valueList = adProcurementList;
+            headerInOrder = orderedHeaderAttributes;
+            dataLinePropsInOrder = orderedLineProperties;
+            errors = errorMessages.ToString();
+            return isValidationsPassed; 
             
         
 

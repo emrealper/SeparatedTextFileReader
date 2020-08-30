@@ -18,6 +18,7 @@ using SeparatedTextFileReader.Infrastructure.DataHelpers;
 using SeparatedTextFileReader.ConsoleApp.Services;
 using SeparatedTextFileReader.Domain.Common;
 using SeparatedTextFileReader.Infrastructure.Services;
+using SeparatedTextFileReader.Application.Services.Procurement.Handlers;
 
 namespace SeparatedTextFileReader.ConsoleApp
 {
@@ -50,26 +51,30 @@ namespace SeparatedTextFileReader.ConsoleApp
                     .ConfigureServices((context, services) =>
                     {
 
-                        var attributeMappingsOptions = context.Configuration.GetSection("AttributeMappingsConfiguration").Get<AttributeMappingsOptions>();
-
-
-                        services.AddLogging(loggingBuilder =>
+                     
+                            services.AddLogging(loggingBuilder =>
                         {
                             loggingBuilder.ClearProviders();
                             loggingBuilder.SetMinimumLevel(LogLevel.Trace);
                             loggingBuilder.AddNLog();
                         });
-                        services.AddTransient<IFileService>(s => new FileService(arguments.File));
+
+                     
+
+  
+
+                       services.AddTransient<IFileService>(s => new FileService(arguments.File));
+                        services.AddTransient<IFilterByArgumentQueryHandler, FilterByArgumentQueryHandler>();
                         services.AddTransient <ILineParser,LineParser>(); 
                         services.AddTransient <IDelimitedFileReaderService,DelimetedFileReaderService>();
                         services.AddTransient<IDeserializeRowData<Procurement>>
-                            (s => new DeserializeRowData<Procurement>(attributeMappingsOptions.AttributeMappings));
+                            (s => new DeserializeRowData<Procurement>());
                     })
                     .UseNLog()
                     .Build();
 
                 var svc = ActivatorUtilities.CreateInstance<ReaderService>(host.Services);
-                svc.Run();
+                svc.Run(arguments);
             }
         }
 
