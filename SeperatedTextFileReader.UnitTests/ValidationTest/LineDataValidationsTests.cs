@@ -1,16 +1,22 @@
 ﻿using SeparatedTextFileReader.Domain.Entities;
+using SeparatedTextFileReader.Domain.Validators;
 using SeparatedTextFileReader.Domain.ValueObject;
 using SeparatedTextFileReader.Infrastructure.DataHelpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Xunit;
+using FluentValidation.Results;
+using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace SeparatedTextFileReader.UnitTests.ValidationTest
 {
 
      public class LineDataValidationsTests
     {
+
+        private static ProcurementEntityValidator validator = new ProcurementEntityValidator();
 
         private static string headerString => "Project	Description	Start date	Category	Responsible	Savings amount	Currency	Complexity";
         private Dictionary<string,string> attributeMappings => new Dictionary<string, string>
@@ -37,10 +43,14 @@ namespace SeparatedTextFileReader.UnitTests.ValidationTest
                            attributeMappings);
 
 
-            AdProcurement value;
-            var validationErrors = string.Empty;
-            AdProcurement.For(entity, out value, out validationErrors);
-            Assert.Equal(expectedResult, validationErrors);
+            var actualResult = string.Empty;
+            ValidationResult results = validator.Validate(entity);
+
+            if (!results.IsValid)
+                actualResult = string.Join("",results.Errors);
+
+
+            Assert.Equal(expectedResult, actualResult);
 
 
 
@@ -61,10 +71,14 @@ namespace SeparatedTextFileReader.UnitTests.ValidationTest
                            attributeMappings);
 
 
-            AdProcurement value;
-            var validationErrors = string.Empty;
-            AdProcurement.For(entity, out value, out validationErrors);
-            Assert.Equal(expectedResult, validationErrors);
+            var actualResult = string.Empty;
+            ValidationResult results = validator.Validate(entity);
+
+            if (!results.IsValid)
+                actualResult = string.Join("", results.Errors);
+
+
+            Assert.Equal(expectedResult, actualResult);
 
         }
 
@@ -80,13 +94,17 @@ namespace SeparatedTextFileReader.UnitTests.ValidationTest
             var rowColumnDictionary = lineParser.TabSeparatedParser(line);
 
             var entity = deserializeRowData.Deserialize(headerColumnDictionay, rowColumnDictionary,
-                           attributeMappings);
+                             attributeMappings);
 
 
-            AdProcurement value;
-            var validationErrors = string.Empty;
-            AdProcurement.For(entity, out value, out validationErrors);
-            Assert.Equal(expectedResult, validationErrors);
+            var actualResult = string.Empty;
+            ValidationResult results = validator.Validate(entity);
+
+            if (!results.IsValid)
+                actualResult = string.Join("", results.Errors);
+
+
+            Assert.Equal(expectedResult, actualResult);
 
         }
     }

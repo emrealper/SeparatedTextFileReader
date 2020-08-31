@@ -12,6 +12,9 @@ namespace SeparatedTextFileReader.UnitTests.ValidationTest
     public class ColumnValidationAndDynamicOrderTests
     {
 
+
+
+
         private Dictionary<string, string> attributeMappings => new Dictionary<string, string>
             {
                  {"Project","Project"},{"Description","Description"},{"StartDate","Start date"},{"Category","Category"},
