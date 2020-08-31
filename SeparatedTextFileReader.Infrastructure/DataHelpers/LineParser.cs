@@ -1,7 +1,5 @@
-﻿using SeparatedTextFileReader.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using SeparatedTextFileReader.Application.Common.Interfaces;
 
 namespace SeparatedTextFileReader.Infrastructure.DataHelpers
 {
@@ -17,12 +15,10 @@ namespace SeparatedTextFileReader.Infrastructure.DataHelpers
             var lineDictionary = new Dictionary<int, string>();
 
 
-
             for (var i = 0; i < line.Split(TabDelimeter).Length; i++)
                 lineDictionary.Add(i, line.Split(TabDelimeter)[i].Replace("\"", ""));
 
             return lineDictionary;
-
         }
 
 
@@ -34,8 +30,6 @@ namespace SeparatedTextFileReader.Infrastructure.DataHelpers
                 lineDictionary.Add(i, line.Split(",")[i].Replace("\"", ""));
 
             return lineDictionary;
-
         }
-
     }
 }

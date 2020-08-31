@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SeparatedTextFileReader.Application.Common.Interfaces;
 using SeparatedTextFileReader.ConsoleApp.Options;
-using SeparatedTextFileReader.Domain.Common;
 using SeparatedTextFileReader.Domain.Entities;
 using SeparatedTextFileReader.Domain.ValueObject;
-using SeparatedTextFileReader.Infrastructure.DataHelpers;
 
 namespace SeparatedTextFileReader.ConsoleApp.Services
 {
     public class ReaderService : IReaderService
     {
- 
+        private static AttributeMappingsOptions _procurementFileAttributeEntityMappingsOptions;
 
+        private static Dictionary<string, string> _attributesMappings;
 
 
         private readonly IDelimitedFileReaderService _delimetedFileReaderService;
@@ -24,23 +22,16 @@ namespace SeparatedTextFileReader.ConsoleApp.Services
 
         private readonly ILogger<ReaderService> _log;
 
-     
-
-        private static AttributeMappingsOptions _procurementFileAttributeEntityMappingsOptions;
-
-        private static Dictionary<string, string> _attributesMappings;
-
-    
 
         public ReaderService(ILogger<ReaderService> log,
-          IDelimitedFileReaderService delimetedFileReaderService,
-          IFilterByArgumentQueryHandler filterByArgumentQueryHandler,
-          IConfiguration config
+            IDelimitedFileReaderService delimetedFileReaderService,
+            IFilterByArgumentQueryHandler filterByArgumentQueryHandler,
+            IConfiguration config
         )
         {
             _log = log;
-            _procurementFileAttributeEntityMappingsOptions = config.GetSection("AttributeMappingsConfiguration").
-                Get<AttributeMappingsOptions>();
+            _procurementFileAttributeEntityMappingsOptions =
+                config.GetSection("AttributeMappingsConfiguration").Get<AttributeMappingsOptions>();
             _attributesMappings = _procurementFileAttributeEntityMappingsOptions.AttributeMappings;
 
             _filterByArgumentQueryHandler = filterByArgumentQueryHandler;
@@ -48,48 +39,34 @@ namespace SeparatedTextFileReader.ConsoleApp.Services
         }
 
 
-        public  void Run(IArguments arguments)
+        public void Run(IArguments arguments)
         {
-
-
-            var errors = String.Empty;
+            var errors = string.Empty;
             var headerInOrder = new Dictionary<int, string>();
             var dataLinePropsOrder = new Dictionary<string, int>();
             var valueList = new List<AdProcurement>();
             var procurements = _delimetedFileReaderService.TryReadAndParselines<Procurement>
-                (_attributesMappings,
-                out valueList,out headerInOrder,
+            (arguments.File,_attributesMappings,
+                out valueList, out headerInOrder,
                 out dataLinePropsOrder,
                 out errors);
-         
-            if(!string.IsNullOrEmpty(errors))
+
+            if (!string.IsNullOrEmpty(errors))
             {
                 Console.WriteLine(errors);
-
-           
             }
             else
             {
-
-
                 //print header in correct order
-                Console.WriteLine(string.Join("\t",headerInOrder.Values));
+                Console.WriteLine(string.Join("\t", headerInOrder.Values));
 
                 //print lines in correct order
                 foreach (var value in _filterByArgumentQueryHandler.FilterDataByArguments(valueList, arguments))
                 {
                     Console.Write(value.ToTabDelimatedString(dataLinePropsOrder));
                     Console.Write("\n");
-                    
                 }
-
-
-
             }
         }
-
-
-
-      
     }
 }

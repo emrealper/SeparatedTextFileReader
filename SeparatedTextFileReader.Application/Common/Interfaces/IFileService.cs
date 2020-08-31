@@ -4,6 +4,6 @@ namespace SeparatedTextFileReader.Application.Common.Interfaces
 {
     public interface IFileService
     {
-        IEnumerable<string> ReadLines();
+        IEnumerable<string> ReadLines(string filePath);
     }
 }

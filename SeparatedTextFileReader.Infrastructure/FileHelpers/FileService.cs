@@ -1,68 +1,21 @@
-﻿
-using SeparatedTextFileReader.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using SeparatedTextFileReader.Application.Common.Interfaces;
 
 
 namespace SeparatedTextFileReader.Infrastructure.FileHelpers
 {
-   public class FileService :IFileService
+    public class FileService : IFileService
     {
-
-     
-
-        private string FilePath { get; set; }
+       
 
 
-
-        public FileService(string filePath
-          )
+        public IEnumerable<string> ReadLines(string filePath)
         {
-            this.FilePath = filePath;
-          
-
+            if (File.Exists(filePath))
+                return File.ReadLines(filePath, Encoding.UTF8);
+            throw new Application.Common.Exceptions.FileNotFoundException(filePath);
         }
-
-
-      
-
-
-        public IEnumerable<string> ReadLines()
-        {
-
-            if(File.Exists(FilePath))
-            {
-
-                return File.ReadLines(FilePath, Encoding.UTF8);
-            }
-            else
-            {
-
-                throw new FileNotFoundException(FilePath);
-
-
-            }
-           
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

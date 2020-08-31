@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SeparatedTextFileReader.ConsoleApp.Options
 {
-   public  class AttributeMappingsOptions
+    public class AttributeMappingsOptions
     {
-
         public Dictionary<string, string> AttributeMappings { get; set; }
 
 
@@ -18,16 +15,7 @@ namespace SeparatedTextFileReader.ConsoleApp.Options
 
         public IEnumerable<string> ToTabDelimatedString()
         {
-
-
-            foreach (KeyValuePair<string, string> headerAttribute in AttributeMappings)
-            {
-
-                yield return headerAttribute.Value+"\t";
-
-            }
-
+            foreach (var headerAttribute in AttributeMappings) yield return headerAttribute.Value + "\t";
         }
-}
-
     }
+}

@@ -1,41 +1,35 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Microsoft.Extensions.Configuration.CommandLine;
+using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Hosting;
 using NLog.Extensions.Logging;
-using CommandLine;
-using SeparatedTextFileReader.ConsoleApp.Options;
 using SeparatedTextFileReader.Application.Common.Interfaces;
-using SeparatedTextFileReader.Infrastructure.FileHelpers;
+using SeparatedTextFileReader.Application.Services.Procurement.Handlers;
+using SeparatedTextFileReader.ConsoleApp.Options;
+using SeparatedTextFileReader.ConsoleApp.Services;
 using SeparatedTextFileReader.Domain.Entities;
 using SeparatedTextFileReader.Infrastructure.DataHelpers;
-
-using SeparatedTextFileReader.ConsoleApp.Services;
-using SeparatedTextFileReader.Domain.Common;
+using SeparatedTextFileReader.Infrastructure.FileHelpers;
 using SeparatedTextFileReader.Infrastructure.Services;
-using SeparatedTextFileReader.Application.Services.Procurement.Handlers;
 
 namespace SeparatedTextFileReader.ConsoleApp
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-
-
-
             var arguments = new ArgumentOptions();
             var result = Parser.Default.ParseArguments<ArgumentOptions>(args);
 
 
             if (result.Tag != ParserResultType.Parsed)
             {
-                var argumentErrors = ((NotParsed<ArgumentOptions>)result).Errors.Select(i => i.Tag.ToString());
+                var argumentErrors = ((NotParsed<ArgumentOptions>) result).Errors.Select(i => i.Tag.ToString());
                 Console.WriteLine(string.Join(", ", argumentErrors));
             }
 
@@ -50,23 +44,17 @@ namespace SeparatedTextFileReader.ConsoleApp
                 var host = Host.CreateDefaultBuilder()
                     .ConfigureServices((context, services) =>
                     {
-
-                     
-                            services.AddLogging(loggingBuilder =>
+                        services.AddLogging(loggingBuilder =>
                         {
                             loggingBuilder.ClearProviders();
                             loggingBuilder.SetMinimumLevel(LogLevel.Trace);
                             loggingBuilder.AddNLog();
                         });
 
-                     
-
-  
-
-                       services.AddTransient<IFileService>(s => new FileService(arguments.File));
+                        services.AddTransient<IFileService, FileService>();
                         services.AddTransient<IFilterByArgumentQueryHandler, FilterByArgumentQueryHandler>();
-                        services.AddTransient <ILineParser,LineParser>(); 
-                        services.AddTransient <IDelimitedFileReaderService,DelimetedFileReaderService>();
+                        services.AddTransient<ILineParser, LineParser>();
+                        services.AddTransient<IDelimitedFileReaderService, DelimetedFileReaderService>();
                         services.AddTransient<IDeserializeRowData<Procurement>>
                             (s => new DeserializeRowData<Procurement>());
                     })
@@ -79,11 +67,13 @@ namespace SeparatedTextFileReader.ConsoleApp
         }
 
 
-        static void BuildConfig(IConfigurationBuilder builder)
+        private static void BuildConfig(IConfigurationBuilder builder)
         {
             builder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile(
+                    $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
+                    true)
                 .AddEnvironmentVariables();
         }
     }

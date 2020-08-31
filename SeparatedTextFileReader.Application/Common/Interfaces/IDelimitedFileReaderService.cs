@@ -12,6 +12,7 @@ namespace SeparatedTextFileReader.Application.Common.Interfaces
     {
 
         bool TryReadAndParselines<T>(
+            string filePath,
             Dictionary<string, string> attributeMappings,
             out List<AdProcurement> valueList,
             out Dictionary<int, string> headerInOrder,

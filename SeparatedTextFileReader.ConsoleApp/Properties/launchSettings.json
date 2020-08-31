@@ -1,8 +1,7 @@
 {
   "profiles": {
     "SeparatedTextFileReader.ConsoleApp": {
-      "commandName": "Project",
-      "commandLineArgs": "--file \"D:\\Users\\26048784\\OneDrive - ARÇELİK A.Ş\\Downloads\\ExampleData (8).tsv\" --sortByStartDate true --project 4"
+      "commandName": "Project"
     }
   }
 }
