@@ -5,13 +5,14 @@ namespace SeperatedTextFileReader.UnitTests.DataTests
 {
     public class LineParserTests
     {
-        [Theory, InlineData("Project	Description	Start date	Category	Responsible	Savings amount	Currency	Complexity",
-             new[]
-             {
-                 "Project", "Description", "Start date", "Category", "Responsible", "Savings amount", "Currency",
-                 "Complexity"
-             },
-             true)]
+        [Theory]
+        [InlineData("Project	Description	Start date	Category	Responsible	Savings amount	Currency	Complexity",
+            new[]
+            {
+                "Project", "Description", "Start date", "Category", "Responsible", "Savings amount", "Currency",
+                "Complexity"
+            },
+            true)]
         public void Should_ReturnsCorrectDictionary_WithTabSeparatedLine(string line, string[] expectedStrings,
             bool expectedResult)
         {
@@ -49,8 +50,6 @@ namespace SeperatedTextFileReader.UnitTests.DataTests
             foreach (var entry in actual)
                 if (entry.Value == expectedStrings[entry.Key])
                     actualResult = true;
-
-
 
 
             Assert.Equal(expectedResult, actualResult);

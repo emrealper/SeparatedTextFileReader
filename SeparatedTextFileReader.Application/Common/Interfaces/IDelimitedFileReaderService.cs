@@ -1,16 +1,12 @@
 ﻿using SeparatedTextFileReader.Domain.Common;
-using SeparatedTextFileReader.Domain.Entities;
 using SeparatedTextFileReader.Domain.ValueObject;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SeparatedTextFileReader.Application.Common.Interfaces
 {
     public interface IDelimitedFileReaderService
 
     {
-
         bool TryReadAndParselines<T>(
             string filePath,
             Dictionary<string, string> attributeMappings,
@@ -19,7 +15,5 @@ namespace SeparatedTextFileReader.Application.Common.Interfaces
             out Dictionary<string, int> dataLinePropsInOrder,
             out string errors)
             where T : IEntity;
-
     }
-
 }

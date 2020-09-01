@@ -46,7 +46,7 @@ namespace SeparatedTextFileReader.ConsoleApp.Services
             var dataLinePropsOrder = new Dictionary<string, int>();
             var valueList = new List<AdProcurement>();
             var procurements = _delimetedFileReaderService.TryReadAndParselines<Procurement>
-            (arguments.File,_attributesMappings,
+            (arguments.File, _attributesMappings,
                 out valueList, out headerInOrder,
                 out dataLinePropsOrder,
                 out errors);

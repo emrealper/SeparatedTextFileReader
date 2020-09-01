@@ -1,13 +1,10 @@
 ﻿using SeparatedTextFileReader.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace SeparatedTextFileReader.Domain.Entities
 {
-   public class Procurement :IEntity
+    public class Procurement : IEntity
     {
-
         public string Project { get; set; }
 
         public string StartDate { get; set; }
@@ -23,6 +20,5 @@ namespace SeparatedTextFileReader.Domain.Entities
         public string Currency { get; set; }
 
         public string Complexity { get; set; }
-
     }
 }

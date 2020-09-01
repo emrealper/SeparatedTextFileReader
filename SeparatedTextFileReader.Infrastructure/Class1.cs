@@ -6,6 +6,3 @@ namespace SeparatedTextFileReader.Infrastructure
     {
     }
 }
-
-
-

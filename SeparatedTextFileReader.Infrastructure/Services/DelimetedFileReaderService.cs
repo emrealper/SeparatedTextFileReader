@@ -105,10 +105,9 @@ namespace SeparatedTextFileReader.Infrastructure.Services
                 }
             }
 
-            catch(Exception exx)
+            catch (Exception exx)
             {
                 errorMessages.Append(exx.Message);
-
             }
 
             valueList = adProcurementList;

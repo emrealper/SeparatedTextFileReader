@@ -5,8 +5,8 @@ using SeparatedTextFileReader.Domain.Common;
 
 namespace SeparatedTextFileReader.Infrastructure.DataHelpers
 {
-    public class DeserializeRowData<E> : IDeserializeRowData<E>
-        where E : class, IEntity
+    public class DeserializeRowData<TE> : IDeserializeRowData<TE>
+        where TE : class, IEntity
 
     {
         private readonly JsonSerializerSettings _settings;
@@ -19,7 +19,7 @@ namespace SeparatedTextFileReader.Infrastructure.DataHelpers
         }
 
 
-        public E Deserialize(Dictionary<int, string> properties,
+        public TE Deserialize(Dictionary<int, string> properties,
             Dictionary<int, string> values,
             Dictionary<string, string> propertyMapping)
         {
@@ -33,7 +33,7 @@ namespace SeparatedTextFileReader.Infrastructure.DataHelpers
 
 
             var serializedPropsValue = JsonConvert.SerializeObject(propsValuesDict);
-            var deSerializedObject = JsonConvert.DeserializeObject<E>(serializedPropsValue, _settings);
+            var deSerializedObject = JsonConvert.DeserializeObject<TE>(serializedPropsValue, _settings);
 
             return deSerializedObject;
         }
